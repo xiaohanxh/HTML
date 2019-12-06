@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5学堂 - alert</title>
+</head>
+<body>
+    <script>
+        window.alert = alert;
+        function alert(data) {
+            var a = document.createElement("div"),
+                p = document.createElement("p"),
+                btn = document.createElement("div"),
+                textNode = document.createTextNode(data ? data : ""),
+                btnText = document.createTextNode("确定");
+            // 控制样式
+            css(a, {
+                "position" : "fixed",
+                "left" : "0",
+                "right" : "0",
+                "top" : "20%",
+                "width" : "100px",
+                "margin" : "0 auto",
+                "background-color" : "#f00",
+                "font-size" : "20px",
+                "text-align" : "center"
+            });
+            css(btn, {
+                "background" : "blue",
+            })
+            // 内部结构套入
+            p.appendChild(textNode);
+            btn.appendChild(btnText);
+            a.appendChild(p);
+            a.appendChild(btn);
+            // 整体显示到页面内
+            
+            document.getElementsByTagName("body")[0].appendChild(a);
+ 
+            // 确定绑定点击事件删除标签
+            btn.onclick = function() {
+                a.parentNode.removeChild(a);
+            }
+        }
+        function css(targetObj, cssObj) {
+            var str = targetObj.getAttribute("style") ? targetObj.getAttribute("style") : "";
+            for(var i in cssObj) {
+                str += i + ":" + cssObj[i] + ";";
+            }
+            targetObj.style.cssText = str;
+        }
+        alert(123);
+    </script>  <script>
+window.alert = function(str)
+{
+var shield = document.createElement("DIV");
+shield.id = "shield";
+shield.style.position = "absolute";
+shield.style.left = "0px";
+shield.style.top = "0px";
+shield.style.width = "100%";
+shield.style.height = document.body.scrollHeight+"px";
+//弹出对话框时的背景颜色
+shield.style.background = "steelblue";
+shield.style.textAlign = "center";
+shield.style.zIndex = "25";
+//背景透明 IE有效
+//shield.style.filter = "alpha(opacity=0)";
+var alertFram = document.createElement("DIV");
+alertFram.id="alertFram";
+alertFram.style.position = "absolute";
+alertFram.style.left = "50%";
+alertFram.style.top = "50%";
+alertFram.style.marginLeft = "-225px";
+alertFram.style.marginTop = "-75px";
+alertFram.style.width = "450px";
+alertFram.style.height = "150px";
+alertFram.style.background = "steelblue";
+alertFram.style.textAlign = "center";
+alertFram.style.lineHeight = "150px";
+alertFram.style.zIndex = "300";
+strHtml = "<ul style=\"list-style:none;margin:0px;padding:0px;width:100%\">\n";
+strHtml += " <li style=\"background:steelblue;text-align:left;padding-left:20px;font-size:14px;font-weight:bold;height:25px;line-height:25px;border:1px solid #F9CADE;\">[提示]</li>\n";
+strHtml += " <li style=\"background:cadetblue;text-align:center;font-size:12px;height:120px;line-height:120px;border-left:1px solid #F9CADE;border-right:1px solid #F9CADE;\">"+str+"</li>\n";
+strHtml += " <li style=\"background:steelblue;text-align:center;font-weight:bold;height:25px;line-height:25px; border:1px solid #F9CADE;\"><input type=\"button\" value=\"确 定\" onclick=\"doOk()\" /></li>\n";
+strHtml += "</ul>\n";
+alertFram.innerHTML = strHtml;
+document.body.appendChild(alertFram);
+document.body.appendChild(shield);
+var ad = setInterval("doAlpha()",5);
+this.doOk = function(){
+alertFram.style.display = "none";
+shield.style.display = "none";
+}
+alertFram.focus();
+document.body.onselectstart = function(){return false;};
+}
+alert("23132");
+</script>
+</body>
+</html>
