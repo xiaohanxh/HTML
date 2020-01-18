@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <p id="p1">Hello world! P1</p>
+    <p id="p2">Hello world! P2</p>
+    <input type="button" value="变" onclick="change()">
+    <script>
+        function change() {
+             document.getElementById("p2").style.backgroundColor = "red";
+             document.getElementById("p2").style.color = "blue";
+             document.getElementById("p2").style.fontFamily = "微软雅黑";
+             document.getElementById("p2").style.fontSize = "20px";
+             document.getElementById("p2").style.cssFloat = "right";
+             var backColor = document.getElementById("p2").style.color;
+            alert(backColor);
+             document.getElementById("p2").className = "ppp";
+             alert(document.getElementById("p2").className);
+             var els = document.getElementsByTagName("p");
+             for (let i = 0; i < els.length; i++) {
+                 const element = els[i];
+                 element.style.backgroundColor = "red";
+             }
+             var els =document.querySelectorAll("p");
+        }
+
+
+    </script>
+    <style>
+        .ppp {
+            background-color: red;
+            color: blue;
+        }
+    </style>
+</body>
+
+</html>
