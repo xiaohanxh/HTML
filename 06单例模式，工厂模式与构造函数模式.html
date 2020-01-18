@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script>
+//1.单例模式
+var pson={
+    name:"萧寒",
+    age:18
+        };
+var pson2={
+    name:"青雨",
+    age:18
+};
+//可以使用单例模式进行模块化开发
+//2.工厂模式
+function opson(name,age) {
+    var npson={};
+    npson.name=name;
+    npson.age=age;
+    npson.pr=function(){
+        console.log("♥"+npson.name+npson.age+"♥")
+}
+return npson;
+    }
+p1=opson("萧寒",18);
+p1.pr();
+p2=opson("青雨",18);
+p2.pr();
+//3.构造函数模式
+function opson1(name,age){
+            //this指的是在类（构造函数模式）中自动生成的实例，相当于在此处var一个对象！
+    this.name=name;
+    this.age=age;
+    this.pr=function(){
+        console.log("♥"+this.name+this.age+"♥")}//自定义函数模式中会自动返回自动生成的对象，不需手动return！
+}
+p1=new opson1("萧寒",18);//如果类(构造函数模型)不需要参数，可以省略括号，即p1=new opson1；！但是函数不管需不需要参数都必须加括号！
+p1.pr();
+p2=new opson1("青雨",18);
+p2.pr();
+
+
+//在构造函数模型中，一般情况下不写返回值。如果自己写了return，则：
+//1.return 100；不影响返回值，p1依旧是类（构造函数模型）的一个实例。
+//2.return {}；覆盖返回值，p1不再是类（构造函数模型）的一个实例，而是{}这个对象！
+
+//拓展：检测某一个实例是否属于这个类：
+   console.log(p1 instanceof opson1);//->返回值为ture则是！
+   //亦可以检测数据类型！
+   //typeof有自己的局限性！不能细分obj下的数据类型！
+   console.log(p1 instanceof Array);//->返回值为f！
+
+
+   //检测某一个属性是否为这个实例的属性
+   //in (attr in object)                     不管是私有的还是共有的！
+   console.log("pr" in p1);//->返回值为turn，就是！
+
+
+    //检测某一个属性是否为这个对象的私有属性
+    //console.log(p1.hasOwnProperty("pr"));返回值为turn，则是！
+    
+
+</script>
+<body>
+
+</body>
+</html>
