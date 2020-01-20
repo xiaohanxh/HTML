@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+    //这是一个类
+    // function opson1(name,age){
+    // this.name=name;
+    // this.age=age;
+    // this.pr=function(){
+    //     console.log("♥"+this.name+this.age+"♥")}
+    // }
+    // p1=new opson1("萧寒",18);
+    // p1.pr();
+    // p2=new opson1("青雨",18);
+    // p2.pr();
+
+    //添加一个共有的属性pr
+    function opson1(name,age){
+    this.name=name;
+    this.age=age;
+    //this.pr=function(){
+     //   console.log("♥"+this.name+this.age+"♥")}
+    }
+    opson1.prototype.pr=function(){
+        console.log("♥"+this.name+this.age+"♥")}//此时的pr就是这个类的公有属性！
+
+    p1=new opson1("萧寒",18);
+    p1.pr();
+    p2=new opson1("青雨",18);
+    p2.pr();
+
+    //详情见图解
+        
+        //原型链依次向上级查找，找到基类为止
+        //object对象中没有__proto__元素，所以是基类！
+        //这种查找机制模式就是原型链模式
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
