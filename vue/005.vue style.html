@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../前端学习/vue.js"></script>
+</head>
+<style>
+    .div1{
+        background-color: blue;
+        }
+    
+    .class1{
+        width: 100px;
+        height: 100px;
+    }
+    .div2{
+        background-color: crimson;
+        }
+        .class2{
+            width: 900px;
+        height: 900px;
+    
+        }
+</style>
+<body>
+    <div id="divx">
+
+        <!-- 正常使用class -->
+        <div class="div1 class1" ></div>
+
+        <!--  利用vue的  v-bind:  綁定 使用class -->
+        <div :class="['div1','class1']"></div>
+
+        <!--  利用可執行合法js，三元表達式進行class綁定 -->
+        <div :class="['div1',q?'class1':'class2']"></div><!-- 儅q為ture（真）時，選擇class1 -->
+        <div :class="['div2',p?'class1':'class2']"></div><!-- 儅p為false（假）時，選擇class2 -->
+
+        <!--  直接控制 -->
+        <div :class="['div1',{'class1':q}]"></div><!-- q為真，class1顯示 -->
+        <div :class="['div2',{'class2':p}]"></div><!-- p為假，class2不顯示 -->
+        
+        <div :class="{div1:true ,class1:true}"></div><!-- 同上 -->
+
+        <div :class="style1"></div><!-- 利用data -->
+
+
+        <!--  内聯樣式參照上面   -->
+
+
+    </div>
+</body>
+<script>
+    var vue=new Vue({
+        el:'#divx',
+        data:{
+            q:true,
+            p:false,
+            style1:{div1:true ,class1:true}
+        },
+        methods:{}
+    })
+</script>
+</html>

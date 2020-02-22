@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../前端学习/vue.js"></script>
+</head>
+<body>
+    <div id="div1">
+        <p>{{msg}}</p>
+
+        <!-- v-bind: 简写 ：   单向数据绑定，修改表单数据无法修改msg内的字符串！ -->
+        <input type="text" v-bind:value="msg">
+
+        <!-- v-model  双向数据绑定  ！！！：v-model指令只能用在表单中！-->
+         <input type="text" v-model="msg"><!-- 当这个表单中字符串发生改变，同时会改变 msg 中字符串-->
+    </div>
+    
+</body>
+<script>
+ var vue=new Vue({
+        el:'#div1',
+       data:{
+           msg:'我是萧寒'
+       },
+       methods:{
+
+       }
+   })
+</script>
+</html>

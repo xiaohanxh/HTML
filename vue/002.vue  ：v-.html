@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">
+        <!--v-cloak能解决插值表达式闪烁问题！-->
+        <p v-cloak>-----------{{msg}}+++++++++++</p>
+<!--        //1.v-text作用和{{}}相同！但是v-text没有闪烁问题，无需v-cloak；
+        //2.v-text会将标签内内容覆盖掉!但是{{}}不会；-->
+        <p v-text="msg">================</p>
+
+        
+        <p>{{msg2}}</p>
+        <p v-text="msg2"></p>
+        <!--之前两种方法都无法将标签展示出来，而是当作字符串直接显示
+            v-html可以html标签，但也会覆盖掉标签内内容！-->
+        <p v-html="msg2">123</p>
+
+
+
+        <!--  v-bind : 是vue中提供的绑定属性的指令-->
+        <input type="button" value="按钮" title="mytitle">
+        <input type="button" value="按钮" v-bind:title="mytitle">
+        <!--  同时v-bind在使用时可以简写为 ： -->
+        <input type="button" value="按钮" :title="mytitle">
+        <!--  使用v-bind自动将mytitle看作是一个变量而不是字符串；并且v-bind中可以写一些合法的表达式  -->
+        <input type="button" value="按钮" :title="mytitle+'xiaohan'">
+
+
+            <!--  vue自带事件绑定 v-on，定义在methods中  缩写  @ -->
+            <p>v-on</p>
+        <button v-on:click="show" ></button>
+        <input type="button" value="按钮" :title="mytitle+'xiaohan'" @click="show" >
+
+        
+    </div>
+</body>
+<script src="../前端学习/vue.js"></script>
+<script>
+    var vm=new Vue({
+        el:'#div1',
+        data:{
+            msg:'xiaohan',
+            msg2:'<h1>xiaohan<h1>',
+            mytitle:'bianhuade'
+        },
+        methods:{
+            show(){
+                alert("萧寒");
+            }
+
+        }
+    })
+</script>
+</html>

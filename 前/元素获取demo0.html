@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="dv1">
+        <span>Hello </span>
+        <span>world</span>
+    </div>
+    <input type="button" value="变！" onclick="change()">
+    <script>
+        function change(params) {
+            // var content = document.getElementById("dv1").innerHTML;
+            // console.log(content);
+            // document.getElementById("dv1").innerHTML = "<b>Hello China!</b>";
+            // var content = document.getElementById("dv1").innerHTML;
+            // console.log(content);
+            // var content = document.getElementById("dv1").innerText;
+            // console.log(content);
+            document.getElementById("dv1").innerText = "<b>Hello China!</b>";
+            var content = document.getElementById("dv1").innerHTML;
+            console.log(content);
+        }
+
+    </script>
+</body>
+
+</html>

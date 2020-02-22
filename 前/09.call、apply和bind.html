@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script>
+//    "use strict"  //   严格模式
+//call方法目的。更改函数中 this关键字！
+    var obj={name:"萧寒"};
+    function fn(){
+        console.log(this);
+    }
+    fn();//->this是window  严格模式下（）this->undefined
+    //    obj.fn();       //Uncaught TypeError: obj.fn is not a function
+    fn.call(obj);//->this是obj；
+    //call是function下的一个属性
+    //执行：
+    //先让原型上call方法执行。在执行fn（）；    
+    //模拟call-->mycall
+    // function.prototype.mycall=function(context){
+    //     //mycall方法中的this就是要操作和改变的函数名！
+    //     //1.让fn中的this关键字变为obj
+    //     //2.执行fn
+    // }
+        
+    fn.call();//this->window  严格模式下（）this->undefined
+    fn.call(null);//this->window   严格模式下（）this->null
+    fn.call(undefined);//this->window  严格模式下（）this->undefined
+
+    //fn.apply():
+    //apply 的用法和语法，作用和call基本完全一致，但是在给函数传参数时略微不同
+    //例如：
+    //fn.apply(obj,[100,200]);   100 .  200为参数，需要放在一个数组中传入！
+    //fn.call(obj,100,200);  100，200为参数，直接传入！
+
+
+    //bind：这个方法在IE6~8上不兼容！
+    //作用和使用语法与call基本一致，都是将fn中的this改变，但是bind改变后不执行
+        
+    //bind后有一个返回值，返回值为改变后的函数！    （预处理）函数！
+
+</script>
+<body>
+    
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+    //一！堆内存的释放：
+    var a={什么东西:"cai"};
+    var b=a;
+    //如果
+    a=null;b=null;
+    //那么没东西占用的那个内存浏览器会在空闲的时候释放掉！
+
+        //二。栈内存：
+        //1.全局作用域：在浏览器打开时产生，浏览器关闭时自动销毁！
+        //2.私有的作用域：（只有函数执行才会形成}
+        //一般情况下，函数执行会形成一个私有作用域，当函数中的代码执行完毕后自动销毁！
+        //如果当前作用域中被其他的占用时，不自动销毁！
+        //例如： 
+        function  fn() {
+            var num = 250;
+            return function () {
+                console.log(num);
+            }
+        };
+        //一般情况下私有作用域绑定事件都不销毁！
+        
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

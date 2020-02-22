@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../前端学习/vue.js"></script>
+</head>
+<body>
+    <div id="div1">
+        <!-- 点击按钮，先触发按钮的事件，然后触发外部div的事件，即冒泡 -->
+        <div id="div2" style="width: 90px;height: 90px;background-color: blue;" @click="divs">
+            <button id="but" @click="buts" >萧寒</button>
+        </div>
+
+
+        <!-- 在事件后加 .stop  点击按钮，只触发按钮的事件，不触发外部div的事件，即停止冒泡 ，对所有冒泡-->
+        <div style="width: 90px;height: 90px;background-color: crimson;" @click="divs">
+            <button @click.stop="buts" >萧寒</button>
+        </div>
+
+
+        <!-- .prevent : 阻止默认行为 -->
+        <a href="https://www.baidu.com" @click="divs" >这是一个a标签</a><!-- 事件触发，链接也会跳转 --><br>
+        <a href="https://www.baidu.com" @click.prevent="divs" >这是一个a标签</a><!-- 事件触发，链接不会跳转 -->
+
+
+        <!-- .capture 点击按钮，先触发外部div的事件，然后触发but的事件，即捕获 -->
+        <div style="width: 90px;height: 90px;background-color: darkorange;" @click.capture="divs">
+            <button @click="buts" >萧寒</button>
+        </div>
+
+
+        <!-- .self 只在点击自身才会触发事件，不会被冒泡或者捕获 ，只对自身-->
+        <div style="width: 90px;height: 90px;background-color: darkviolet;" @click.self="divs">
+            <button @click="buts" >萧寒</button>
+        </div>
+
+
+        <!-- .once 事件只能触发一次  -->
+        <a href="https://www.baidu.com" @click.prevent.once="divs" >这是一个a标签</a><!-- 事件触发，链接第一次不会跳转，再次点击就会跳转,即 .prevent 所在的事件只触发一次！ -->
+
+    </div>
+</body>
+<script>
+    var vue=new Vue({
+        el:'#div1',
+        data:{},
+        methods:{
+            divs(){
+                console.log("这是div事件");
+            },
+            buts(){
+                console.log("这是but事件");
+            }
+        }
+    })
+</script>
+</html>

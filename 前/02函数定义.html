@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script>
+    // 预解释只对等号左边的进行预解释，右边的不进行预解释！
+    myo(8);   //->8
+   function myo(Num) {
+       alert(Num)
+       }
+    myo(8);  //->8
+
+  //    myo1(8);->error     
+    var myo1=function (Num) {
+       alert(Num)
+       }
+    myo1(8);  //->8
+    
+    //自执行函数
+    //在预解释时不进行预解释！  当代码执行到这个地方定义和执行一起完成！
+  //  function (Num) {alert(Num);}（100）--->错误
+    (function (Num) {alert(Num);})(100);
+    +function (Num) {alert(Num);}(100);
+    -function (Num) {alert(Num);}(100);
+    ~function (Num) {alert(Num);}(100);
+    !function (Num) {alert(Num);}(100);
+</script>
+
+
+<body>
+    
+</body>
+</html>
