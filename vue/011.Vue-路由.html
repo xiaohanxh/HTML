@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../前端学习/vue.js" ></script>
+     <script src="vue-resource.js"></script>
+     <script src="vue-router.js"></script>
+</head>
+<style>
+    .mactive{
+        color: chartreuse;
+        background-color: crimson;
+    }
+</style>
+<body>
+     <div id="div1">
+
+        <!-- <a href="#/login">登录</a>
+        <a href="#/register" >注册</a> -->
+
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <!-- 这是 vue-router 提供的元素，用来当作占位符 -->
+        <router-view></router-view>
+        <!-- name是一个字符串，这个容器只能装 name 这个模板对象 -->
+        <router-view name="mainx" ></router-view>
+     </div>
+</body>
+<script>
+
+    var login={
+        template:'<h1>登陆组件</h1>'
+    }
+    var register={
+        template:'<h1>注册组件</h1>'
+    }
+     var mainx={
+         template:'<h1>主体组件</h1>'
+     }
+    // 创建一个路由对象，当导入 vue-router包之后，在windows 全局对象中，就有了一个 路由的构造函数
+    // 叫做 VueRouter
+    // 在 new 路由对象的时候，可以为 构造函数 传递一个配置对象
+    var routerobj = new VueRouter({
+        // route  表示【路由匹配规则】
+        routes:[
+            // 路由匹配规则
+            //每个路由规则都是一个对象，在这个对象身上必须有俩个属性：
+            //1.是 path ，表示监听 那个路由地址；
+            //2. 是component ，表示如果路由是前面匹配到的path，则展示 component 属性对应的组件
+            //注意：component 的值必须是一个组件模板对象，不能是组建的引用名称；    
+            {path:'/',redirect:'/login'},
+            { path:'/login', components:{
+                'default':login,
+                'mainx':mainx
+            } },
+            {path:'/register', component:register}
+
+        ],
+        linkActiveClass:'mactive'
+    })
+
+
+
+
+
+
+
+    var vue=new Vue({
+        el:'#div1',
+        data:{},
+        methods:{},
+        router:routerobj // 将那个路由规则对象，注册到 vm 实例上，用来监听 url 地址
+    })
+</script>
+</html>

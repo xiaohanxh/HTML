@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../前端学习/vue.js" ></script>
+    <script src="vue-resource.js"></script>
+</head>
+<body>
+     <div id="div1">
+      <button @click='getinf' >get请求</button>
+      <button @click='postinf'>post请求</button>
+      <button @click='jsonpinf'>jsonp请求</button>
+    </div>
+</body>
+<script>
+    var vue=new Vue({
+        el:'#div1',
+        data:{},
+        methods:{
+            getinf(){
+                // this.$http.jsonp
+                //发起get请求，通过.the来设置成功的回调函数
+                this.$http.get('http://vue.studyit.io/api/getlunbo').then(
+                    function(a){
+                        console.log(a)
+                    }
+                )
+            },
+            postinf(){
+                //post请求第三个参数为提交内容类型，emulateJSON:true为普通表单格式
+                this.$http.post('http://vue.studyit.io/api/post',{},{emulateJSON:true}).then(
+                    result=>(console.log(result.body))
+                )
+            },
+            jsonpinf(){
+                this.$http.jsonp('http://vue.studyit.io/api/jsonp').then(result=>(console.log(result.body)))
+            
+        }}
+    })
+</script>
+</html>

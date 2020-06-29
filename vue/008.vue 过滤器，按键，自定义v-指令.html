@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../前端学习/vue.js" ></script>
+</head>
+<body>
+     <div id="div1">
+         <!-- keyup可以监听键盘事件：
+                可以
+                .enter
+                .tab
+                .delete (删除和退格键)
+                .esc
+                .space
+                .up
+                .down
+                .left                
+                .right
+                或者
+                .键盘码
+                最新版本也可直接.键
+                例如：.f2
+         -->
+         <input type="text" v-model="b"  @keyup.p='bian()' v-focus>
+         <button @click='bian()' >变！</button>
+      <p>{{a | xyz}}</p>
+      ================================================
+      <p>{{a| xyz1}}</p>
+     </div>
+</body>
+<script>
+//自定义全局按键修饰符
+//                键=键码
+Vue.config.keyCodes.f2=113;
+
+
+
+    // 过滤器定义语法
+    // Vue.filter('过滤器的名称',function(data){})
+    //过滤器中，函数的第一个参数已经确定写死了，就是过滤器 管道符 前面传递过来的数据
+    //这是全局过滤器
+    Vue.filter('xyz',function(data){
+        var str="xiaohan"+data;
+        //字符串处理  前加  string.padStart(字符串位数，不足用“什么”补足)
+      str=  str.padStart(12,'nh');
+        return str;
+    })
+
+    //************************************************
+// 如果全局过滤器和私有过滤器名称一致，优先调用私有过滤器
+    //************************************************
+
+
+//   使用   Vue.directive() 定义全局指令 ：例如给文本框加焦点 v-docus
+//   其中：参数1：指令的名称，在定义时不需要加v-，但是调用时必须加v-！！！
+//       ：参数2：是一个对象，在这个对象身上，有一些指令相关的函数，这些函数可以在特定的阶段，执行相关的操作
+
+//    Vue.directive('directiveName', {
+//        bind(el, binding, vnode) {
+//            el.style.arg = binding.value.arg;
+//        }
+//    });
+      Vue.directive('focus', {
+          bind(el) { // 每当指令绑定到元素上时，会立即执行bind函数，只执行一次 
+              //el表示被绑定了指令的那个元素
+              el.style.color='red'
+          },
+          inserted(el){ //表示元素插入到dom中时，会执行函数，只执行一次 
+                el.focus()
+          },
+          updated(){ // 当vnode更新的时候，会执行update，可能会触发多次
+
+          }
+      });
+
+
+
+    var vue=new Vue({
+        el:'#div1',
+        data:{
+            a:'qy',
+            b:''
+        },
+        methods:{
+            bian(){
+                this.a=this.b;
+            }
+        },
+        //这是私有过滤器（局部）：
+        filters:{
+            //过滤器名：处理函数
+            xyz1:function(data){
+                var str="xiaohan"+data;
+             //字符串处理   后加  string.padEnd(字符串位数，不足用“什么”补足)
+        str=str.padEnd(12,'zj');
+        return str;
+            },
+            directives:{
+                // 私有的指令
+                //同共有！
+            }
+        }
+        
+    })
+</script>
+</html>

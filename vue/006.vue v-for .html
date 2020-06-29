@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../前端学习/vue.js"></script>
+</head>
+<body>
+    <div id="divx">
+      <!--  a是索引值，i是数组值；-->
+        <p v-for="(i,a) in list" >{{a}}---{{i}}</p>
+        <p v-for="(x,b) in shuzu " >{{x.id}}--{{x.name}}--{{x.sex}}--{{b}}</p>
+        <!-- 循环对象时，y为值，z为键-->
+        <p v-for="(y,z,c) in user" >{{y}}----{{z}}--{{c}}</p>
+    </div>
+</body>
+<script>
+    var vue=new Vue({
+        el:'#divx',
+        data:{
+            list:[1,2,3,4,5,6],
+            shuzu:[
+                {id:1,
+                name:"xiaohan1",
+                sex:"man"},
+                {id:2,
+                name:"xiaohan2",
+                sex:"man"},
+                {id:3,
+                name:"xiaohan3",
+                sex:"man"},
+                {id:4,
+                name:"xiaohan4",
+                sex:"man"}
+            ],
+            user:{
+                id:1,
+                name:"xiaohan5",
+                sex:"man"
+            }
+        },
+        methods:{}
+    })
+</script>
+</html>

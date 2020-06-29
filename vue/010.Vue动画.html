@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../前端学习/vue.js" ></script>
+     <script src="vue-resource.js"></script>
+</head>
+<style>
+    .my-enter,
+    .my-leave-to{
+        opacity: 0;
+        color:aqua;
+    }
+    .my-enter-active,
+    .my-leave-active{
+        transition: all 3s ease;
+        color: brown;
+    }
+</style>
+<body>
+     <div id="div1">
+     
+        <button @click="a=!a" >bianbianbian</button>
+        <transition name="my">
+        <span v-if="a">这是一个span标签</span>
+        </transition>
+     </div>
+</body>
+<script>
+    var vue=new Vue({
+        el:'#div1',
+        data:{
+            a:false
+            },
+        methods:{}
+    })
+</script>
+</html>

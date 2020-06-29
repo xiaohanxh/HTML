@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../前端学习/vue.js" ></script>
+     <script src="vue-resource.js"></script>
+     <script src="vue-router.js"></script>
+</head>
+<body>
+     <div id="div1">
+         <input type="text" v-model="one" >
+         <input type="text" v-model="last" >
+        {{msg}}
+
+        <input type="text" v-model="one1" >
+        <input type="text" v-model="last1" >
+       {{msg1}}
+     </div>
+</body>
+<script>
+    var vue=new Vue({
+        el:'#div1',
+        data:{ 
+            one:'',
+            last:'',
+            msg:'',
+
+            one1:'',
+            last1:''
+        },
+        methods:{},
+        watch:{     //监视data数据的变化，触发对应的处理函数
+            'one':function(){
+                this.msg=this.one+this.last
+            },
+            'last':function(){
+                this.msg=this.one+this.last
+            }
+        },
+        computed:{ // 其中值改变，自动求值，并缓存
+            'msg1':function(){
+                return this.one1+this.last1
+            }
+        }
+    })
+</script>
+</html>
