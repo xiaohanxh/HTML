@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>excell 筛选</title>
+</head>
+<style>
+  body,
+  html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    border: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  body {
+    background-image: url(./01.jpg);
+    background-size: 101%;
+    background-repeat: no-repeat;
+  }
+
+  #sel {
+    background-color: aqua;
+    position: absolute;
+    top: 30%;
+    left: 80%;
+    font-size: 25px;
+  }
+
+  #sel>div>input {
+    height: 35px;
+    border: 0;
+    width: 80px;
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  #sel>button{
+    height: 30px;
+    background-color: chartreuse;
+  }
+
+  .title {
+    font-size: 80px;
+    text-align: center;
+  }
+
+  .get {
+    box-shadow: 0px 0px 5px #ffffff;
+    height: 100px;
+    width: 600px;
+    text-align: center;
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .get>p {
+    text-align: start;
+    font-size: 30px;
+    color: aquamarine;
+  }
+
+  #download {
+    display: none;
+  }
+
+  #download>button {
+    height: 50px;
+    width: 100px;
+    background-color: cornflowerblue;
+    border: 0;
+    box-shadow: 0px 0px 5px #ffffff;
+    border-radius: 10px;
+    margin-left: 60%;
+  }
+</style>
+
+<body>
+  <div id="sel">
+    <div style="text-align: center;">点击可拖动</div>
+    <div><span>姓名：</span><input type="text" onchange="change(this.value)"d></div>
+    <div><span>成绩：</span><input type="text" onchange="changed(this.value)"></div>
+    <div><span>名次:</span><input type="text" onchange="checkField(this.value)"></div>
+    <button onclick="sel()">再次筛选</button>
+  </div>
+  <h1 class="title">excell 筛选</h1>
+  <!-- 选择文件 -->
+  <div class="get">
+    <p>请选择文件：</p>
+    <input type="file" id="file2017"><br>
+  </div>
+  <div class="get">
+    <p>请选择文件：</p>
+    <input type="file" id="file2018"><br>
+  </div>  <div class="get">
+    <p>请选择文件：</p>
+    <input type="file" id="file2019"><br>
+  </div>
+  <!-- 下载筛选后文件 -->
+  <div id="download">
+    <button onclick="downloadExl(download)">导出</button>
+    <a href="" download="xxx.xlsx" id="hf"></a></div>
+
+</body>
+<script src="./xlsx.mini.js"></script>
+<script>
+  var results2017 = [];
+  var results2018 = [];
+  var results2019 = [];
+  var download = [];
+  var download2017 = [];
+  var download2018 = [];
+  var download2019 = [];
+  var max = 0;
+  var min = 0;
+  var name = '';
+  var grade = 0;
+  var num = 0;
+  //首先监听input框的变动，选中一个新的文件会触发change事件
+  document.querySelector("#file2017").addEventListener("change", function () {
+    //获取到选中的文件
+    var file = document.querySelector("#file2017").files[0];
+    var type = file.name.split('.');
+    if (type[type.length - 1] !== 'xlsx' && type[type.length - 1] !== 'xls') {
+      alert('只能选择excel文件导入');
+      return false;
+    }
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = (e) => {
+      const data = e.target.result;
+      const zzexcel = window.XLS.read(data, {
+        type: 'binary'
+      });
+      const result = [];
+      for (let i = 0; i < zzexcel.SheetNames.length; i++) {
+        const newData = window.XLS.utils.sheet_to_json(zzexcel.Sheets[zzexcel.SheetNames[i]]);
+        result.push(...newData)
+      }
+      // console.log('result', result)
+      results2017=result;
+      res();
+    }
+  });
+  document.querySelector("#file2018").addEventListener("change", function () {
+    //获取到选中的文件
+    var file = document.querySelector("#file2018").files[0];
+    var type = file.name.split('.');
+    if (type[type.length - 1] !== 'xlsx' && type[type.length - 1] !== 'xls') {
+      alert('只能选择excel文件导入');
+      return false;
+    }
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = (e) => {
+      const data = e.target.result;
+      const zzexcel = window.XLS.read(data, {
+        type: 'binary'
+      });
+      const result = [];
+      for (let i = 0; i < zzexcel.SheetNames.length; i++) {
+        const newData = window.XLS.utils.sheet_to_json(zzexcel.Sheets[zzexcel.SheetNames[i]]);
+        result.push(...newData)
+      }
+      // console.log('result', result)
+      results2018=result;
+      res1();
+    }
+  });
+  document.querySelector("#file2019").addEventListener("change", function () {
+    //获取到选中的文件
+    var file = document.querySelector("#file2019").files[0];
+    var type = file.name.split('.');
+    if (type[type.length - 1] !== 'xlsx' && type[type.length - 1] !== 'xls') {
+      alert('只能选择excel文件导入');
+      return false;
+    }
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = (e) => {
+      const data = e.target.result;
+      const zzexcel = window.XLS.read(data, {
+        type: 'binary'
+      });
+      const result = [];
+      for (let i = 0; i < zzexcel.SheetNames.length; i++) {
+        const newData = window.XLS.utils.sheet_to_json(zzexcel.Sheets[zzexcel.SheetNames[i]]);
+        result.push(...newData)
+      }
+      // console.log('result', result)
+      results2019=result;
+      res2();
+    }
+  });
+ function checkField(e){
+   num = e;
+   min =  parseInt(e) - 3000;
+   if(min<0){
+     min=0;
+   }
+   max = parseInt(e) + 10000;
+   console.log(min,max)
+  }
+  function change(e){
+    name = e;
+  }
+  function changed(e){
+    grade = e
+  }
+  function res() {
+    download2017=[];
+    // 表格处理，数据筛选
+    download2017[0]=results2017[0];
+    for (var i = 0; i < results2017.length; i++) {
+      // 筛选条件
+      if (results2017[i].__EMPTY_6 > min && results2017[i].__EMPTY_6 < max) {
+        download2017[download2017.length] = results2017[i]
+      }
+    }
+    console.log('2017',download2017)
+  }
+  function res1() {
+    download2018=[];
+    // 表格处理，数据筛选
+    download2018[0]=results2018[0];
+    for (var i = 0; i < results2018.length; i++) {
+      // 筛选条件
+      if (results2018[i].__EMPTY_6 > min && results2018[i].__EMPTY_6 < max) {
+        download2018[download2018.length] = results2018[i]
+      }
+    }
+    console.log('2018',download2018)
+  }
+  function res2() {
+    download2019=[];
+    // 表格处理，数据筛选
+    download2019[0]=results2019[0];
+    for (var i = 0; i < results2019.length; i++) {
+      // 筛选条件
+      if (results2019[i].__EMPTY_6 > min && results2019[i].__EMPTY_6 < max) {
+        download2019[download2019.length] = results2019[i]
+      }
+    }
+    download = download2017;
+    var leng = download2017.length>download2018.length?download2017.length:download2018.length
+    for(var i = 0 ; i<leng;i++){
+      if(download[i]&&download2018[i]){
+        download[i].__EMPTY_8=download2018[i].__EMPTY
+        download[i].__EMPTY_9=download2018[i].__EMPTY_1
+        download[i].__EMPTY_10=download2018[i].__EMPTY_2
+        download[i].__EMPTY_11=download2018[i].__EMPTY_3
+        download[i].__EMPTY_12=download2018[i].__EMPTY_4
+        download[i].__EMPTY_13=download2018[i].__EMPTY_5
+        download[i].__EMPTY_14=download2018[i].__EMPTY_6
+        download[i].__EMPTY_15=download2018[i].__EMPTY_7
+      }else if(download[i]&&!download2018[i]){
+        download[i].__EMPTY_8=' '
+        download[i].__EMPTY_9=' '
+        download[i].__EMPTY_10=' '
+        download[i].__EMPTY_11=' '
+        download[i].__EMPTY_12=' '
+        download[i].__EMPTY_13=' '
+        download[i].__EMPTY_14=' '
+        download[i].__EMPTY_15=' '
+      }else if(!download[i]&&download2018[i]){
+        download.push({})
+        download[i].__EMPTY=' '
+        download[i].__EMPTY_1=' '
+        download[i].__EMPTY_2=' '
+        download[i].__EMPTY_3=' '
+        download[i].__EMPTY_4=' '
+        download[i].__EMPTY_5=' '
+        download[i].__EMPTY_6=' '
+        download[i].__EMPTY_7=' '
+        download[i].__EMPTY_8=download2018[i].__EMPTY
+        download[i].__EMPTY_9=download2018[i].__EMPTY_1
+        download[i].__EMPTY_10=download2018[i].__EMPTY_2
+        download[i].__EMPTY_11=download2018[i].__EMPTY_3
+        download[i].__EMPTY_12=download2018[i].__EMPTY_4
+        download[i].__EMPTY_13=download2018[i].__EMPTY_5
+        download[i].__EMPTY_14=download2018[i].__EMPTY_6
+        download[i].__EMPTY_15=download2018[i].__EMPTY_7
+      }
+    }
+    leng = leng>download2019.length?leng:download2019.length;
+    for(var i = 0 ; i<leng;i++){
+      if(download[i]&&download2019[i]){
+        download[i].__EMPTY_16=download2019[i].__EMPTY
+        download[i].__EMPTY_17=download2019[i].__EMPTY_1
+        download[i].__EMPTY_18=download2019[i].__EMPTY_2
+        download[i].__EMPTY_19=download2019[i].__EMPTY_3
+        download[i].__EMPTY_20=download2019[i].__EMPTY_4
+        download[i].__EMPTY_21=download2019[i].__EMPTY_5
+        download[i].__EMPTY_22=download2019[i].__EMPTY_6
+        download[i].__EMPTY_23=download2019[i].__EMPTY_7
+      }else if(download[i]&&!download2019[i]){
+        download[i].__EMPTY_16=' '
+        download[i].__EMPTY_17=' '
+        download[i].__EMPTY_18=' '
+        download[i].__EMPTY_19=' '
+        download[i].__EMPTY_20=' '
+        download[i].__EMPTY_21=' '
+        download[i].__EMPTY_22=' '
+        download[i].__EMPTY_23=' '
+      }else if(!download[i]&&download2019[i]){
+        download.push({})
+        download[i].__EMPTY=' '
+        download[i].__EMPTY_1=' '
+        download[i].__EMPTY_2=' '
+        download[i].__EMPTY_3=' '
+        download[i].__EMPTY_4=' '
+        download[i].__EMPTY_5=' '
+        download[i].__EMPTY_6=' '
+        download[i].__EMPTY_7=' '
+        download[i].__EMPTY_8=' '
+        download[i].__EMPTY_9=' '
+        download[i].__EMPTY_10=' '
+        download[i].__EMPTY_11=' '
+        download[i].__EMPTY_12=' '
+        download[i].__EMPTY_13=' '
+        download[i].__EMPTY_14=' '
+        download[i].__EMPTY_15=' '
+        download[i].__EMPTY_16=download2019[i].__EMPTY
+        download[i].__EMPTY_17=download2019[i].__EMPTY_1
+        download[i].__EMPTY_18=download2019[i].__EMPTY_2
+        download[i].__EMPTY_19=download2019[i].__EMPTY_3
+        download[i].__EMPTY_20=download2019[i].__EMPTY_4
+        download[i].__EMPTY_21=download2019[i].__EMPTY_5
+        download[i].__EMPTY_22=download2019[i].__EMPTY_6
+        download[i].__EMPTY_23=download2019[i].__EMPTY_7
+      }
+    }
+    console.log('test',download)
+    document.getElementById('download').style.display='block';
+  }
+  function sel(){
+    setTimeout(res(),0);
+    setTimeout(res1,1000);
+    setTimeout(res2,2000);
+    alert('成功！')
+  }
+
+  function downloadExl(json, type) {
+    var tmpdata = json[0];
+    json.unshift({});
+    var keyMap = []; //获取keys
+    //keyMap =Object.keys(json[0]);
+    for (var k in tmpdata) {
+      keyMap.push(k);
+      json[0][k] = k;
+    }
+    var tmpdata = [];//用来保存转换好的json 
+    json.map((v, i) => keyMap.map((k, j) => Object.assign({}, {
+      v: v[k],
+      position: (j > 25 ? getCharCol(j) : String.fromCharCode(65 + j)) + (i + 1)
+    }))).reduce((prev, next) => prev.concat(next)).forEach((v, i) => tmpdata[v.position] = {
+      v: v.v
+    });
+    // sheet 3 
+    var data = [];
+    for(var i = 1;i<json.length;i++){
+      data.push({})
+      data[data.length-1].院校代号=json[i].__EMPTY_17;
+      data[data.length-1].院校名称=json[i].__EMPTY_18;
+      data[data.length-1]['19位次']=json[i].__EMPTY_22;
+    }
+    for (var i = 0; i < results2018.length; i++) {
+      for(var x=0;x<data.length;x++){
+              // 筛选条件
+      if (results2018[i].__EMPTY_1 == data[x].院校代号) {
+        data[x]['18位次']=results2018[i].__EMPTY_6
+        console.log(results2018[i])
+      }
+      }
+    }
+    for (var i = 0; i < results2017.length; i++) {
+      for(var x=0;x<data.length;x++){
+              // 筛选条件
+      if (results2017[i].__EMPTY_1 == data[x].院校代号) {
+        data[x]['17位次']=results2017[i].__EMPTY_6
+        console.log(results2017[i])
+      }
+      }
+    }
+    var tmpdata1 = data[0];
+    data.unshift({});
+    var keyMap = []; //获取keys
+    //keyMap =Object.keys(data[0]);
+    for (var k in tmpdata1) {
+      keyMap.push(k);
+      data[0][k] = k;
+    }
+    var tmpdata1 = [];//用来保存转换好的json 
+    data.map((v, i) => keyMap.map((k, j) => Object.assign({}, {
+      v: v[k],
+      position: (j > 25 ? getCharCol(j) : String.fromCharCode(65 + j)) + (i + 1)
+    }))).reduce((prev, next) => prev.concat(next)).forEach((v, i) => tmpdata1[v.position] = {
+      v: v.v
+    });
+    var outputPos = Object.keys(tmpdata); //设置区域,比如表格从A1到D10
+    var outputPos1 = Object.keys(tmpdata1); //设置区域,比如表格从A1到D10
+    console.log('abce',tmpdata)
+    console.log('abc',tmpdata1)
+    var tmpWB = {
+      SheetNames: ['考生档案信息','推荐学校名单','推荐学校17-19年最低录取位次'], //保存的表标题
+      Sheets: {
+        '考生档案信息':{"!ref":"A1:J9",
+          "A1":{"t":"s","v":"姓名",
+          "r":"姓名","h":"姓名","w":"姓名"},
+          "B1":{"t":"s","v":name,"r":name,"h":name,"w":name},
+          "C1":{"t":"s","v":"性别","r":"性别","h":"性别","w":"性别"},
+          "E1":{"t":"s","v":"家庭地址","r":"家庭地址","h":"家庭地址","w":"家庭地址"},
+          "I1":{"t":"s","v":"联系人","r":"联系人","h":"联系人","w":"联系人"},
+          "A2":{"t":"s","v":"毕业学校","r":"毕业学校","h":"毕业学校","w":"毕业学校"},
+          "C2":{"t":"s","v":"本人电话","r":"本人电话","h":"本人电话","w":"本人电话"},
+          "F2":{"t":"s","v":"是否有复读意向","r":"是否有复读意向","h":"是否有复读意向",
+          "w":"是否有复读意向"},
+          "I2":{"t":"s","v":"联系人电话","r":"联系人电话","h":"联系人电话","w":"联系人电话"},
+          "A3":{"t":"s","v":"文科/理科","r":"文科/理科","h":"文科/理科","w":"文科/理科"},
+          "B3":{"t":"s","v":"","r":"","h":"","w":""},"C3":{"t":"s","v":"城市偏好",
+          "r":"城市偏好","h":"城市偏好","w":"城市偏好"},"A4":{"t":"s","v":"分数","r":"分数","h":"分数","w":"分数"},
+          "B4":{"t":"n","v":grade,"w":grade},"C4":{"t":"s","v":"高校偏好","r":"高校偏好","h":"高校偏好","w":"高校偏好"},
+          "A5":{"t":"s","v":"位次","r":"位次","h":"位次","w":"位次"},"B5":{"t":"n","v":num,"w":num},
+          "C5":{"t":"s","v":"专业偏好","r":"专业偏好","h":"专业偏好","w":"专业偏好"},
+          "A6":{"t":"s","v":"一本线差","r":"一本线差","h":"一本线差","w":"一本线差"},
+          "C6":{"t":"s","v":"职业规划","r":"职业规划","h":"职业规划","w":"职业规划"},
+          "A7":{"t":"s","v":"二本线差","r":"二本线差","h":"二本线差","w":"二本线差"},
+          "C7":{"t":"s","v":"其他","r":"其他","h":"其他","w":"其他"},
+          "A8":{"t":"s","v":"一本位差","r":"一本位差","h":"一本位差","w":"一本位差"},
+          "A9":{"t":"s","v":"指导人","r":"指导人","h":"指导人","w":"指导人"},
+          "C9":{"t":"s","v":"指导人电话","r":"指导人电话","h":"指导人电话",
+          "w":"指导人电话"},"F9":{"t":"s","v":"助理","r":"助理","h":"助理","w":"助理"},
+          "H9":{"t":"s","v":"助理电话","r":"助理电话","h":"助理电话","w":"助理电话"},
+          "!margins":{"left":0.7,"right":0.7,"top":0.75,"bottom":0.75,"header":0.3,"footer":0.3},
+          "!merges":[{"s":{"c":3,"r":5},"e":{"c":9,"r":5}},{"s":{"c":2,"r":6},"e":{"c":2,"r":7}},
+          {"s":{"c":3,"r":6},"e":{"c":9,"r":7}},{"s":{"c":3,"r":8},"e":{"c":4,"r":8}},{"s":{"c":8,"r":8},
+          "e":{"c":9,"r":8}},{"s":{"c":5,"r":0},"e":{"c":7,"r":0}},{"s":{"c":3,"r":1},"e":{"c":4,"r":1}},
+          {"s":{"c":5,"r":1},"e":{"c":6,"r":1}},{"s":{"c":3,"r":2},"e":{"c":9,"r":2}},{"s":{"c":3,"r":3},
+          "e":{"c":9,"r":3}},{"s":{"c":3,"r":4},"e":{"c":9,"r":4}}]},
+        '推荐学校名单': Object.assign({},
+          tmpdata, //内容
+          {
+            '!ref': outputPos[0] + ':' + outputPos[outputPos.length - 1] //设置填充区域
+          }),
+        '推荐学校17-19年最低录取位次': Object.assign({},
+          tmpdata1, //内容
+          {
+            '!ref': outputPos1[0] + ':' + outputPos1[outputPos1.length - 1] //设置填充区域
+          })
+      }
+    };
+
+    tmpDown = new Blob([s2ab(XLSX.write(tmpWB,
+      { bookType: (type == undefined ? 'xlsx' : type), bookSST: false, type: 'binary' }//这里的数据是用来定义导出的格式类型
+    ))], {
+      type: ""
+    }); //创建二进制对象写入转换好的字节流
+    document.getElementById('hf').download=name+'.xlsx';
+    var href = URL.createObjectURL(tmpDown); //创建对象超链接
+    document.getElementById("hf").href = href; //绑定a标签
+    document.getElementById("hf").click(); //模拟点击实现下载
+    setTimeout(function () { //延时释放
+      URL.revokeObjectURL(tmpDown); //用URL.revokeObjectURL()来释放这个object URL
+    }, 100);
+  }
+  function s2ab(s) { //字符串转字符流
+    var buf = new ArrayBuffer(s.length);
+    var view = new Uint8Array(buf);
+    for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+  }
+    //  拖动移动
+    var box = document.getElementById('sel'); //获取元素
+  var x, y; //鼠标相对与div左边，上边的偏移
+  var isDrop = false; //移动状态的判断鼠标按下才能移动
+  box.onmousedown = function (e) {
+    var e = e || window.event; //要用event这个对象来获取鼠标的位置
+    x = e.clientX - box.offsetLeft;
+    y = e.clientY - box.offsetTop;
+    isDrop = true; //设为true表示可以移动
+  }
+  document.onmousemove = function (e) {
+      var e = e || window.event;
+      var moveX = e.clientX - x; //得到距离左边移动距离                    　　
+      var moveY = e.clientY - y; //得到距离上边移动距离
+    //是否为可移动状态                　　　　　　　　　　　 　　　　　　　
+    if (isDrop) {
+      //可移动最大距离
+      var maxX = document.documentElement.clientWidth - box.offsetWidth;
+      var maxY = document.documentElement.clientHeight - box.offsetHeight;
+      //范围限定  当移动的距离最小时取最大  移动的距离最大时取最小
+      moveX = Math.min(maxX, Math.max(0, moveX));
+      moveY = Math.min(maxY, Math.max(0, moveY));
+      box.style.left = moveX + "px";
+      box.style.top = moveY + "px";
+    } else {
+      return;
+    }
+  }
+  document.onmouseup = function () {
+    isDrop = false; //设置为false不可移动
+  }
+</script>
+
+</html>
